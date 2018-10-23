@@ -60,22 +60,30 @@ int main(){
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
             comRing[i][j] = null;
-  //          cout<<comRing[i][j];
+            cout<<comRing[i][j];
         }
-    //    cout<<endl;
+        cout<<endl;
     }
     
     int corShip1Com [n][n];
-    for(int i=0;i<2;i++){
+    int comKor = 2;
+    for(int i=0;i<comKor;i++){
         int random1 = 0 + rand()% 5;
-        int random2 = 0 + rand()% 5;
+        int random2 = 0 + rand()% 5;//написать условие чтобы рандом1 != рандом2
+        if((corShip1Com[0][0] != random1)&&(corShip1Com[0][1] != random2)){
         comRing[random1][random2]= "\tI";
         for(int j=0;j<1;j++){
             corShip1Com[i][j] = random1;
             corShip1Com[i][j+1] = random2;
+            }
+            
+        }
+        else{
+            comKor = comKor + 1;
         }
     }
-    int comKor = 1;
+    
+    comKor = 1;
     for(int i=0;i<comKor;i++){
         int random1 = 0 + rand()% 5;
         int random2 = 0 + rand()% 5;
@@ -106,11 +114,9 @@ int main(){
     comKor = 1;
     for(int i=0;i<comKor;i++){
         int random1 = 0 + rand()% 5;
-        int random2 = 0 + rand()% 5;
+        int random2 = 0 + rand()% 5;//контроль \/
         if((corShip1Com[0][0] != random1)&&(corShip1Com[0][1] != random2)&&
-//           (corShip1Com[0][0] != random2)&&(corShip1Com[0][1] != random1)&&
            (corShip1Com[1][0] != random1)&&(corShip1Com[1][1] != random2)&&
-//         (corShip1Com[1][0] != random2)&&(corShip1Com[1][1] != random1)&&
            (corShip1Com[0][2] != random1)&&(corShip1Com[0][3] != random2)&&
            (corShip1Com[2][2] != random1)&&(corShip1Com[2][3] != random2)){
             comRing[random1][random2] = "\tU";
@@ -134,24 +140,25 @@ int main(){
         }
     }
     
-//    cout<<endl;
-//    for(int i=0;i<n;i++){
-//        for(int j=0;j<n;j++){
-//            cout<<comRing[i][j];
-//        }
-//        cout<<endl;
-//    }
+    cout<<endl;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            cout<<comRing[i][j];
+        }
+        cout<<endl;
+    }
 
     
     //
     //расстановка корабликов 1х1
     int vertikal = n+1, gorizontal = n+1, oneKor = 2;
+    
     cout<<"Введите координаты за которыми хотите расставить 2 кораблики 1х1"<<endl;
     string pervWtor[2] = {"\nПервый корабль :","\nВторой корабль :"};
     for(int i = 0; i < oneKor; i++){
         int rezVer = vertikal, rezGor = gorizontal;
-        if(i < 2){
-            cout<<pervWtor[i];
+        if(i < 1){
+            cout<<pervWtor[0];
         }
         else{
             cout<<pervWtor[1];
@@ -161,8 +168,11 @@ int main(){
         cout<<"Вертикаль = ";
         cin>>vertikal;
         if((rezVer != vertikal)||(rezGor != gorizontal)){
-        ring[vertikal][gorizontal] = "\tI";
-        rezRing[vertikal][gorizontal] = 1;
+            ring[vertikal][gorizontal] = "\tI";
+            for(int j = 0 ; j < 1 ; j++){
+                rezRing[i][j] = gorizontal;
+                rezRing[i][j+1] = vertikal;
+            }
         }
         else{
             cout<<"\nДва корабля не могут стоять на одной клетке :(\nПереставьте второй корабль..."<<endl;
@@ -186,14 +196,15 @@ int main(){
     /*растановка корабликов 2х1
     1) Кораблики 2х1 не должны быть рядом с корабликами 1х1
     2) Нужно сделать чтобы при установке первой части кораблика вторая была ТОЛЬКО рядом со второй
+    Написать уловие чтобы два корабля не были на одной клетке
     */
     cout<<endl;
     cout<<"Введите координаты за которыми хотите расставить 2 кораблики 2х1"<<endl;
-    int twoKor = 2, vertikal2 = 0, gorizontal2 = 0, revers;
+    int twoKor = 2, revers;
     for(int i=0;i<twoKor;i++){
-        int rezVer = vertikal, rezGor = gorizontal;
-        if(twoKor<2){
-            cout<<pervWtor[i];
+        //int rezVer = vertikal, rezGor = gorizontal;
+        if( i < 1){
+            cout<<pervWtor[0];
         }
         else{
             cout<<pervWtor[1];
@@ -202,31 +213,57 @@ int main(){
         cin>>gorizontal;
         cout<<"Вертикаль = ";
         cin>>vertikal;
-        cout<<"В какую сторону развернешь корабль. Введите индексы соседней клетки они не могут быть со знаком минус и больше чем границы карты."<<endl;
-        cout<<"Варианты разворота :\nПо горизонтали : "<<gorizontal-1<<" или "<<gorizontal+1<<"\nПо вертикале : "<<vertikal-1<<" или "<<vertikal+1<<endl;
-        cin>>revers;
-        if(revers == vertikal-1){
-            vertikal2 = vertikal-1;
-            gorizontal2 = gorizontal;
-        }
-        else if (revers == vertikal+1){
-            vertikal2 = vertikal+1;
-            gorizontal2 = gorizontal;
-        }
-        else if (revers == gorizontal-1){
-            vertikal2 = vertikal;
-            gorizontal2 = gorizontal - 1;
-        }
-        else if (revers == gorizontal +1){
-            vertikal2 = vertikal;
-            gorizontal2 = gorizontal+1;
-        }
-        if(((rezVer != vertikal)&&(rezVer != vertikal2))||((rezGor != gorizontal)&&(rezVer != gorizontal2))){
-                ring[vertikal][gorizontal] = "\tU";
-                ring[vertikal2][gorizontal2] = "\tU";
-                rezRing[vertikal][gorizontal] = 2;
-                rezRing[vertikal2][gorizontal2] = 2;
+        if(((rezRing[0][0] != gorizontal)||(rezRing[0][1] != vertikal))&&
+           ((rezRing[1][0] != gorizontal)||(rezRing[1][1] != vertikal))){
+            
+            ring[vertikal][gorizontal] = "\tU";
+            
             for(int i=0;i<n;i++){
+                cout<<"\t"<<i;
+            }
+            cout<<endl;
+            for(int i=0;i<n;i++){
+                cout<<i;
+                for(int j=0;j<n;j++){
+                    cout<<ring[i][j];
+                }
+                cout<<endl;
+            }
+            int reversFor = 1;
+            for( int q = 0 ; q < reversFor ; q++){
+                cout<<"В какую сторону развернешь корабль?\nПо горизонтали или вертикали? (0-вертикали, 1-горизонтали) = ";
+                cin>>revers;
+                if(revers == 1){
+                    cout<<"Влево или вправо?(0-вправо, 1-влево) = ";
+                    cin>>revers;
+                    if((revers == 1)&&(rezRing[0][0] != gorizontal - 1)){
+                        ring[vertikal][gorizontal-1] = "\tU";
+                    }
+                    else if((revers == 0)&&(rezRing[1][0] != gorizontal + 1)){
+                        ring[vertikal][gorizontal+1] = "\tU";
+                    }
+                    else{
+                        cout<<"Нельзя ставить корабль поверх другого!"<<endl;
+                        reversFor = reversFor + 1 ;
+                    }
+                }
+                else if (revers == 0){
+                    cout<<"Вверх или вниз?(0-вверх, 1-вниз) = ";
+                    cin>>revers;
+                    if((revers == 1)&&(rezRing[0][1] != vertikal + 1)){
+                        ring[vertikal+1][gorizontal] = "\tU";
+                    }
+                    else if ((revers == 0)&&(rezRing[0][1] != vertikal - 1)){
+                        ring[vertikal-1][gorizontal] = "\tU";
+                    }
+                    else{
+                        cout<<"Нельзя ставить корабль поверх другого!"<<endl;
+                        reversFor = reversFor + 1 ;
+                    }
+                }
+            }
+        
+        for(int i=0;i<n;i++){
                 cout<<"\t"<<i;
             }
             cout<<endl;
@@ -239,13 +276,13 @@ int main(){
             }
         }
         else{
-            cout<<"\nДва корабля не могут стоять на одной клетке :(\nПереставьте второй корабль..."<<endl;
-            twoKor = twoKor +1;
+            cout<<"Кораблики 2х1 не должны стоять на клетках с кораблями 1х1!\nВведите еще раз координаты 2х1"<<endl;
+            twoKor = twoKor + 1 ;
         }
     }
     
     
-//    {
+    //for(){
     
     cout<<"\nВы начинаете. Введите координаты куда стрелять : "<<endl;
     
@@ -284,8 +321,7 @@ int main(){
                 }
                 cout<<endl;
             }
-            
-            shot = shot +1;
+            shot = shot+1;
             cout<<endl;
         }
         else if (ringWar[vertikal][gorizontal] != comRing[vertikal][gorizontal]) {
